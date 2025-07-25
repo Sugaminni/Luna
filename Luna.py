@@ -30,3 +30,15 @@ def ask_luna(user_input: str) -> str:
         max_tokens=500 # Caps response length
     )
     return response.choices[0].message.content.strip() # Grabs the first response given and returns it as a reply without whitespace
+
+# Entry point for Luna and sends messages to ask_luna function
+if __name__ == "__main__":
+    print("Start chatting with Luna. Type 'exit' or 'quit' to end.")
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() in ["exit", "quit"]:
+            print("Luna: Hmph, don't come back.")
+            break
+
+        reply = ask_luna(user_input)
+        print("Luna:", reply)
