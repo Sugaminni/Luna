@@ -31,6 +31,10 @@ def ask_luna(user_input: str) -> str:
     )
     return response.choices[0].message.content.strip() # Grabs the first response given and returns it as a reply without whitespace
 
+# Task management handler
+def handle_commands(user_input: str) -> str | None:
+    normalized = user_input.lower()
+
 # Entry point for Luna and sends messages to ask_luna function
 if __name__ == "__main__":
     print("Start chatting with Luna. Type 'exit' or 'quit' to end.")
@@ -40,5 +44,10 @@ if __name__ == "__main__":
             print("Luna: Hmph, don't come back.")
             break
 
-        reply = ask_luna(user_input)
-        print("Luna:", reply)
+        local_response = handle_commands(user_input)
+        if local_response:
+            print("Luna: ", local_response)
+
+        else:
+            reply = ask_luna(user_input)
+            print("Luna:", reply)
