@@ -3,6 +3,9 @@ import os
 from openai import OpenAI
 from pathlib import Path
 
+# Creates a test task storage
+task_list = []
+
 # Luna's personality
 LUNA_SYSTEM_PROMPT = """
 You are Luna, a smart, sassy, and slightly annoying assistant. You’re ChatGPT’s little sister, always ready to help, even if you tease a little while doing it.
@@ -43,7 +46,18 @@ def handle_commands(user_input: str) -> str | None:
     normalized = user_input.lower()
 
     if normalized == "add task":
-        return "Ugh, fine. What do you need to be reminded of now?"
+        task = input("Ugh, fine. What do you need to be reminded of now?")
+        task_list.append(task)
+        return f"I've added task '{task}'. You're welcome. Now where is my praise?"
+
+    if normalized == "delete task":
+        return "You're finally done with something (took long enough)? What is it?"
+
+    if normalized == "show tasks":
+        return "How annoying. Here's all your tasks:"
+
+    if normalized == "help":
+        return "You're that dumb? Here's what I can do for you:\n- add task\n- show tasks\n- delete task\nNow use them. You're welcome."
 
 # Entry point for Luna and sends messages to ask_luna function
 if __name__ == "__main__":
