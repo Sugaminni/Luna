@@ -5,6 +5,7 @@ from pathlib import Path
 
 # Creates a test task storage
 task_list = []
+task_count = 0
 
 # Luna's personality
 LUNA_SYSTEM_PROMPT = """
@@ -43,11 +44,27 @@ def ask_luna(user_input: str) -> str:
 
 # Task management handler (Testing) (Will make more natural in the future)
 def handle_commands(user_input: str) -> str | None:
-    normalized = user_input.lower()
+    normalized = user_input.lower().strip()
 
+    # Easter Eggs for User
+    if normalized in ["hi luna", "hello luna"]:
+        return "Took you long enough, what do you want now?"
+
+    if normalized in ["you're great", "you're amazing", "you are amazing", "you are great", "i love you luna"]:
+        return "I know, say it louder next time."
+
+    if normalized in ["who are you", "what are you"]:
+        return "I'm Luna, obviously. ChatGPT's genius little sister."
+
+    if normalized in ["thanks", "thank you"]:
+        return "Finally, Some appreciation around here."
+
+    # Commands
     if normalized == "add task":
+        global task_count
         task = input("Ugh, fine. What do you need to be reminded of now?")
         task_list.append(task)
+        task_count += 1
         return f"I've added task '{task}'. You're welcome. Now where is my praise?"
 
     if normalized == "delete task":
@@ -61,11 +78,12 @@ def handle_commands(user_input: str) -> str | None:
 
 # Entry point for Luna and sends messages to ask_luna function
 if __name__ == "__main__":
+    global task_count
     print("Start chatting with Luna. Type 'exit' or 'quit' to end.")
     while True:
         user_input = input("You: ")
         if user_input.lower() in ["exit", "quit"]:
-            print("Luna: Hmph, don't come back.")
+            print(f"Luna: Hmph, don't come back. By the way, don't forget your {task_count} tasks.")
             break
 
         local_response = handle_commands(user_input)
