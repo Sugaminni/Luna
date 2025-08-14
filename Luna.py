@@ -71,9 +71,19 @@ def handle_commands(user_input: str) -> str | None:
         task_count += 1
         return f"I've added task '{task}'. You're welcome. Now where is my praise?"
 
-
     if normalized == "delete task":
-        return "You're finally done with something (took long enough)? What is it?"
+        if not task_list:
+            return "There's nothing *to* delete, genius."
+        for i, task in enumerate(task_list, start=1):
+            print(f"{i}. {task}")
+        try:
+            index = int(input("Fine, Which one are we deleting? ")) - 1
+            removed = task_list.pop(index)
+            global task_count
+            task_count -= 1
+            return f"Poof. '{removed}' is gone. Just like your motivation."
+        except (ValueError, IndexError):
+            return "Wrong number. Try again, genius."
 
     if normalized == "show tasks":
         return "How annoying. Here's all your tasks:"
